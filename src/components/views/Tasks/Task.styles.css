@@ -16,7 +16,7 @@
 }
 
 #tasks .wrapper_list .list_group {
-    display:none;
+    display: flex;
     flex-direction: row;
     gap: 5px 10px;
 }
@@ -52,6 +52,12 @@
     font-size: 18px;
 }
 
+#task .cart h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.2rem;
+}
+
 #task .card h6,#task .card h5 {
     color:#424242;
     font-size: 0.6rem;
@@ -77,12 +83,3 @@
     margin: 0;
 }
 
-@media (min-width: 900px) {
-    .phone {
-        display: none;
-    }
-
-    #tasks .wrapper_list .list_group {
-        display:flex;
-    }
-}
