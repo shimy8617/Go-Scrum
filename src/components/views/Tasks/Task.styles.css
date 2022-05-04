@@ -1,5 +1,7 @@
 #tasks {
-    padding:20px 15px 5px;
+    padding: 20px 15px 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 #tasks .wrapper_list {
@@ -52,19 +54,19 @@
     font-size: 18px;
 }
 
-#task .cart h3 {
+#tasks .cart h3 {
     font-size: 1rem;
     font-weight: 700;
     margin: 0 0 0.2rem;
 }
 
-#task .card h6,#task .card h5 {
+#tasks .card h6,#task .card h5 {
     color:#424242;
     font-size: 0.6rem;
     margin: 0 0 0.1rem
 }
 
-#task .card button {
+#tasks .card button {
     border-radius:4px;
     border-width: 1px;
     font-size: 0.6rem;
@@ -76,10 +78,22 @@
     color: white;
 }
 
-#task .card p {
+#tasks .card p {
     color: #424242;
     display: block;
     font-size: 0.8rem;
     margin: 0;
 }
 
+@media (min-width:900px) {
+    #tasks {
+        flex-direction: row;
+    }
+}
+
+@media (min-width:1300px) {
+    #tasks .wrapper_list {
+        flex: 1;
+    }
+
+}
