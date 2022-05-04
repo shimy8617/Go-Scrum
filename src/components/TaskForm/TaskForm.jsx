@@ -4,52 +4,51 @@ import "./TaskForm.styles.css";
 
 
 export const TaskForm = () => {
-    const navigate = useNavigate();
   const initialValues = {
-    email: "",
-    password: "",
-  };
-
-  const validate = (values) => {
-    const errors = {};
-
-    if (!values.email) {
-      errors.email = "El email es requerido";
-    }
-    if (!values.password) {
-      errors.password = "El password es requerido";
-    }
-    return errors;
+    title: "",
+    status: "",
+    priority: "",
+    description: "",
   };
 
   const onSubmit = () => {
-    localStorage.setItem("logged", "yes");
-    navigate("/", { replace: true });
+    alert();
   };
 
-  const formik = useFormik({ initialValues, validate, onSubmit });
+  const formik = useFormik({ initialValues, onSubmit });
 
-  const { handleSubmit, handleChange, values, errors } = formik;
+  const { handleSubmit, handleChange } = formik;
 
     return( 
     <section className="task-form">
         <h2>Crear tarea</h2>
         <p>Crea tus tareas</p>
-        <form>
+        <form onSubmit = {handleSubmit}>
             <div>
                 <div>
-                    <imput />
+                    <imput name="title" onChange={handleChange} placeholder="Título" />
                 </div>
                 <div>
-                    <select />
+                    <select name="status" onChange={handleChange}>
+                        <option value="">Seleccionar opción</option>
+                        <option value="new">Nueva</option>
+                        <option value="inProcess">En proceso</option>
+                        <option value="finished">Terminada</option>
+                    </select>
                 </div>
                 <div>
-                    <select />
+                    <select name="priority" onChange={handleChange}>
+                        <option value="">Seleccionar opción</option>
+                        <option value="low">Baja</option>
+                        <option value="medium">Media</option>
+                        <option value="high">Alta</option>
+                    </select>
                 </div>
             </div>
             <div>
-                <textarea />
+                <textarea name="description" onChange={handleChange} placeholder="Descripción" />
             </div>
+            <button type="submit">Crear</button>
         </form>
     </section>
     )

@@ -89,6 +89,10 @@
     #tasks {
         flex-direction: row;
     }
+    
+    #tasks .wrapper_list {
+        flex: 1;
+    }
 }
 
 @media (min-width:1300px) {
