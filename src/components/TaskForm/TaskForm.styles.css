@@ -44,6 +44,17 @@
     box-sizing: border-box;
 }
 
+.task-form input.error,
+.task-form select.error,
+.task-form textarea.error {
+    border: 0.5px solid red
+}
+
+.error-message {
+    color:red;
+    font-size:14px;
+}
+
 .task-form textarea {
     min-height: 140px;
 }

@@ -1,5 +1,8 @@
 import React from "react";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+
+import "../Auth.styles.css"; 
 
 export const Register = () => {
   const initialValues = {
@@ -16,6 +19,7 @@ export const Register = () => {
   const { handleSubmit, handleChange, values, errors } = formik;
 
   return (
+    <div className="auth">
     <form onSubmit={handleSubmit}>
       <h1>Registro</h1>
       <div>
@@ -83,6 +87,8 @@ export const Register = () => {
       <div>
         <button type="submit">Enviar</button>
       </div>
+        <div><Link to="/login">Ir a Iniciar sesión</Link></div>
     </form>
+    </div>
   );
 };
