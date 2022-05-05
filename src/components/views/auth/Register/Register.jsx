@@ -1,20 +1,41 @@
 import React from "react";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { Link } from "react-router-dom";
 
 import "../Auth.styles.css"; 
 
 export const Register = () => {
   const initialValues = {
-    email: "",
+    username: "",
     password: "",
+    email: "",
+    teamID: "",
+    role: "",
+    continent: "",
+    region: "",
   };
+
+  const required = "* Campo obligatotio";
+
+  const validationSchema = () =>
+    Yup.object().shape({
+      username: Yup.string()
+      .min(4, "La cantidad mínima de caracteres es 4")
+      .required(required),
+      password: Yup.string().required(required),
+      email: Yup.mail("Debe ser un email válido").required(required),
+      teamID: Yup.string().required(required),
+      role: Yup.string().required(required),
+      continent: Yup.string().required(required),
+      region: Yup.string().required(required),
+    });
 
   const onSubmit = () => {
     alert();
   };
 
-  const formik = useFormik({ initialValues, onSubmit });
+  const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
   const { handleSubmit, handleChange, values, errors } = formik;
 
