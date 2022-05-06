@@ -15,7 +15,7 @@ export const TaskForm = () => {
     alert();
   };
 
-  const required = "* Campo obligatotio";
+  const required = "* Campo obligatorio";
 
   const validationSchema = () =>
     Yup.object().shape({
@@ -28,7 +28,7 @@ export const TaskForm = () => {
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
-  const { handleSubmit, handleChange, errors, touched, handleBlur } = formik;
+  const { handleSubmit, handleChange, errors, touched, handleBlur, values } = formik;
 
   return (
     <section className="task-form">
