@@ -131,24 +131,29 @@ console.log({data});
         {errors.continent && touched.continent && (
         <span className="error-message">{errors.continent}</span>)}
       </div>
-      <div>
+      {values.continent === "America" && (
+        <div>
         <label>Región</label>
-        <select name="region" 
+        <select 
+        name="region" 
         value={values.region} 
         onChange={handleChange}
         onBlur={handleBlur}
         className={errors.region && touched.region ? "error" : ""}
         >
           <option value="">Seleccionar una opción</option>
-          {data?.region?.map(option => (<option value={option} key={option}>{option}</option>))}
-          <option value="Latam">Latam</option>
-          <option value="Brasil">Brasil</option>
-          <option value="America del Norte">America del Norte</option>
-          <option value="Otro">Otro</option>
+          {data?.region?.map(option => (
+          <option 
+          value={option} 
+          key={option}>
+            {option}
+          </option>
+          ))}
         </select>
         {errors.region && touched.region && (
         <span className="error-message">{errors.region}</span>)}
       </div>
+      )}      
       <div>
         <button type="submit">Enviar</button>
       </div>
