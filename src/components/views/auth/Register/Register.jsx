@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import {v4 as uuidv4 } from 'uuid';
+import {Switch, FormControlLabel} from '@mui/material'
 
 import "../Auth.styles.css"; 
 
@@ -41,6 +43,11 @@ console.log({data});
       region: Yup.string().required(required),
     });
 
+    const handleChangeContinent = value => {
+      setFieldValue('continent',value);
+      if(value !== "America") setFieldValue("region", "otro");
+    }
+
   const onSubmit = () => {
     alert();
   };
@@ -48,7 +55,7 @@ console.log({data});
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
 
-  const { handleSubmit, handleChange, errors, touched, handleBlur, values } = formik;
+  const { handleSubmit, handleChange, errors, touched, handleBlur, values, setFieldValue } = formik;
 
   return (
     <div className="auth">
@@ -93,14 +100,37 @@ console.log({data});
         {errors.email && touched.email && (
         <span className="error-message">{errors.email}</span>)}
       </div>
-      <input type="hidden" name="teamID" value="asd" />
+      <FormControlLabel 
+      control={<Switch 
+        value={values.switch}
+        onChange={() =>
+        formik.setFieldValue("switch", !formik.values.switch)
+      }
+      name="switch"
+      color="secondary"
+      />
+      } 
+      label="Pertenecés a un equipo ya creado"
+      />
+      {values.switch && (
+        <div>
+        <label>Por favor, introduce el identificador de equipo</label>
+        <input 
+        type="text" 
+        name="teamID" 
+        value={values.teamID} 
+        onChange={handleChange} 
+        />
+        </div>
+      )}
       <div>
         <label>Rol</label>
-        <select name="role" 
-        value={values.role} 
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={errors.role && touched.role ? "error" : ""}
+        <select 
+          name="role" 
+          value={values.role} 
+          onChange={handleChange}
+          onBlur={handleBlur}
+          className={errors.role && touched.role ? "error" : ""}
         >
           <option value="">Seleccionar una opción</option>
           {data?.role?.map(option => (
@@ -118,7 +148,7 @@ console.log({data});
         <select
           name="continent"
           value={values.continent}
-          onChange={handleChange}
+          onChange={event => handleChangeContinent(event.currentTarget.value)}
           onBlur={handleBlur}
           className={errors.continent && touched.continent ? "error" : ""}
         >
