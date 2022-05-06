@@ -49,7 +49,24 @@ console.log({data});
     }
 
   const onSubmit = () => {
-    alert();
+    const teamID = !values.teamID ? uuidv4() : values.teamID ;
+    fetch("https://goscrum-api.alkemy.org/auth/register", {
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify({
+        user: {
+          username: values.username,
+          password: values.password,
+          email: values.email,
+          teamID,
+          role: values.role,
+          continent: values.continent,
+          region: values.region,
+        }
+      })
+    }).then(response => response.json())
   };
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
