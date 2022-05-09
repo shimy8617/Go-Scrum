@@ -39,6 +39,7 @@ export const Login = () => {
     })
     .then(response => response.json())
     .then(data => {
+      localStorage.setItem("token", data?.result?.token)
       navigate("/", { replace:true })
     })
   };
