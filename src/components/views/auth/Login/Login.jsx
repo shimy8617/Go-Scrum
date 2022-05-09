@@ -2,6 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
 import * as Yup from "yup";
+import {swal} from '../../../../utils/swal'
 
 import "../Auth.styles.css"; 
 
@@ -39,10 +40,15 @@ export const Login = () => {
     })
     .then(response => response.json())
     .then(data => {
-      localStorage.setItem("token", data?.result?.token)
-      navigate("/", { replace:true })
-    })
-  };
+      if(data.status_code === 200) {
+        localStorage.setItem("token", data?.result?.token)
+        navigate("/", { replace:true })
+      } else {
+        swal();        
+      }
+      })
+    }  
+
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
