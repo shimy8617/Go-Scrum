@@ -3,7 +3,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, Navigate } from "react-router-dom";
 import {v4 as uuidv4 } from 'uuid';
-import {Switch, FormControlLabel} from '@mui/material'
+import {Switch, FormControlLabel} from '@mui/material';
+import { useNavigate } from "react-router-dom";
 
 import "../Auth.styles.css"; 
 
@@ -11,6 +12,7 @@ const {REACT_APP_API_ENDPOINT:API_ENDPOINT} = process.env
 
 export const Register = () => {
 const [data, setData] = useState()
+  const navigate = useNavigate();
 
 useEffect(() => {
   fetch(`${API_ENDPOINT}/auth/data`)
