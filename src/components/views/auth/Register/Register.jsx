@@ -1,17 +1,19 @@
 import React, {useState, useEffect} from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {v4 as uuidv4 } from 'uuid';
 import {Switch, FormControlLabel} from '@mui/material'
 
 import "../Auth.styles.css"; 
 
+const {REACT_APP_API_ENDPOINT:API_ENDPOINT} = process.env
+
 export const Register = () => {
 const [data, setData] = useState()
 
 useEffect(() => {
-  fetch("https://goscrum-api.alkemy.org/auth/data")
+  fetch(`${API_ENDPOINT}/auth/data`)
   .then(response => response.json())
   .then(data => setData(data.result))
 }, [])
@@ -19,7 +21,7 @@ useEffect(() => {
 console.log({data});
 
   const initialValues = {
-    username: "",
+    userName: "",
     password: "",
     email: "",
     teamID: "",
@@ -32,7 +34,7 @@ console.log({data});
 
   const validationSchema = () =>
     Yup.object().shape({
-      username: Yup.string()
+      userName: Yup.string()
       .min(4, "La cantidad mínima de caracteres es 4")
       .required(required),
       password: Yup.string().required(required),
@@ -50,14 +52,14 @@ console.log({data});
 
   const onSubmit = () => {
     const teamID = !values.teamID ? uuidv4() : values.teamID ;
-    fetch("https://goscrum-api.alkemy.org/auth/register", {
+    fetch(`${API_ENDPOINT}/auth/register`, {
       method:"POST",
       headers: {
         "Content-Type": "application/json",
       },
       body:JSON.stringify({
         user: {
-          username: values.username,
+          userName: values.userName,
           password: values.password,
           email: values.email,
           teamID,
@@ -67,6 +69,11 @@ console.log({data});
         }
       })
     }).then(response => response.json())
+    .then(data =>
+      Navigate("/registered/" + data?.result?.user?.teamID, {
+        replace:true,
+      })
+      )
   };
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
@@ -82,14 +89,14 @@ console.log({data});
         <label>Nombre de usuario</label>
         <input
           type="text"
-          name="username"
-          value={values.username}
+          name="userName"
+          value={values.userName}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={errors.username && touched.username ? "error" : ""}
+          className={errors.userName && touched.userName ? "error" : ""}
         />
-        {errors.username && touched.username && (
-        <span className="error-message">{errors.username}</span>)}
+        {errors.userName && touched.userName && (
+        <span className="error-message">{errors.userName}</span>)}
       </div>
       <div>
         <label>Contraseña</label>
