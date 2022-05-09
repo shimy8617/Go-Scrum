@@ -3,6 +3,9 @@ import * as Yup from "yup";
 
 import "./TaskForm.styles.css";
 
+const {REACT_APP_API_ENDPOINT:API_ENDPOINT} = process.env
+
+
 export const TaskForm = () => {
   const initialValues = {
     title: "",
@@ -12,8 +15,21 @@ export const TaskForm = () => {
   };
 
   const onSubmit = () => {
-    alert();
-  };
+    fetch(`${API_ENDPOINT}/task`, {
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token"),
+      },
+      body:JSON.stringify({
+        task: values
+      })
+    }).then(response => response.json())
+    .then(data => {
+      resetForm();
+      alert("Tu tarea se creó")
+    })
+  }; 
 
   const required = "* Campo obligatorio";
 
@@ -29,7 +45,7 @@ export const TaskForm = () => {
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
-  const { handleSubmit, handleChange, errors, touched, handleBlur, values } = formik;
+  const { handleSubmit, handleChange, errors, touched, handleBlur, values, resetForm } = formik;
 
   return (
     <section className="task-form">
@@ -43,6 +59,7 @@ export const TaskForm = () => {
             onBlur={handleBlur} 
             placeholder="Título" 
             className={errors.title && touched.title ? "error" : ""}
+            value={values.title}
             />
           {errors.title && touched.title && 
           <span className="error-message">{errors.title}</span>}
@@ -52,6 +69,7 @@ export const TaskForm = () => {
             onChange={handleChange} 
             onBlur={handleBlur}
             className={errors.status && touched.status ? "error" : ""}
+            value={values.status}
             >
               <option value="">Seleccionar opción</option>
               <option value="NEW">Nueva</option>
@@ -66,6 +84,7 @@ export const TaskForm = () => {
             onChange={handleChange} 
             onBlur={handleBlur}
             className={errors.importance && touched.importance ? "error" : ""}
+            value={values.importance}
             >
               <option value="">Seleccionar opción</option>
               <option value="LOW">Baja</option>
@@ -83,6 +102,7 @@ export const TaskForm = () => {
             placeholder="Descripción"
             onBlur={handleBlur} 
             className={errors.description && touched.description ? "error" : ""}
+            value={values.description}
           />
           {errors.description && touched.description && 
           <span className="error-message">{errors.description}</span>}
