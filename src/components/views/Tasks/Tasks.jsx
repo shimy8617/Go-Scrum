@@ -1,4 +1,6 @@
 import {useState, useEffect} from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import "./Task.styles.css";
 import { useResize } from "../../../hooks/useResize";
@@ -10,6 +12,7 @@ const {REACT_APP_API_ENDPOINT:API_ENDPOINT} = process.env
 
 export const Tasks = () => {
   const [list, setList] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { isPhone } = useResize();
 
   useEffect(() => {
@@ -20,7 +23,10 @@ export const Tasks = () => {
       },
     })
     .then(response => response.json())
-    .then(data => setList(data.result))
+    .then(data => {
+      setList(data.result)
+      setLoading(false) 
+    })
   },[])
 
   const limitString = (str) => {
