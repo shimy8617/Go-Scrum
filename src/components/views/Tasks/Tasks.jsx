@@ -1,3 +1,5 @@
+import {useState, useEffect} from 'react';
+
 import "./Task.styles.css";
 import { useResize } from "../../../hooks/useResize";
 import { Header } from "../../Header/Header";
@@ -5,8 +7,22 @@ import { TaskForm } from "../../TaskForm/TaskForm";
 import { Card } from "../../Card/Card";
 import { cardsData } from "./data";
 
+const {REACT_APP_API_ENDPOINT:API_ENDPOINT} = process.env
+
 export const Tasks = () => {
+  const [list, setList] = useState(null);
   const { isPhone } = useResize();
+
+  useEffect(() => {
+    fetch(`${API_ENDPOINT}/task`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then(response => response.json())
+    .then(data => setList(data.result))
+  },[])
 
   const limitString = (str) => {
     if (str.length > 370)
@@ -15,7 +31,19 @@ export const Tasks = () => {
   };
 
   const renderAllCards = () => {
-    return cardsData.map((data) => <Card key={data.id} data={data} />);
+    return list?.map((data) => <Card key={data.id} data={data} />);
+  };
+
+  const renderNewCards = () => {
+    return list?.filter(data => data.status === "NEW").map((data) => <Card key={data.id} data={data} />);
+  };
+
+  const renderInProgressCards = () => {
+    return list?.filter(data => data.status === "IN PROGRESS").map((data) => <Card key={data.id} data={data} />);
+  };
+
+  const renderFinishedCards = () => {
+    return list?.filter(data => data.status === "FINISHED").map((data) => <Card key={data.id} data={data} />);
   };
 
   return (
