@@ -5,7 +5,6 @@ import { useResize } from "../../../hooks/useResize";
 import { Header } from "../../Header/Header";
 import { TaskForm } from "../../TaskForm/TaskForm";
 import { Card } from "../../Card/Card";
-import { cardsData } from "./data";
 
 const {REACT_APP_API_ENDPOINT:API_ENDPOINT} = process.env
 
@@ -56,10 +55,15 @@ export const Tasks = () => {
             <h2>Mis tareas</h2>
           </div>
           {isPhone ? (
+            !list?.length ? (
+              <div>No hay tareas creadas</div>
+            ) : (
             <div className="list phone">{renderAllCards()}</div>
+            )
           ) : (
             <div className="list_group">
-              <div className="list">
+              {!list?.lenght ? <div>No hay tareas creadas</div> : 
+              <><div className="list">
                 <h4>Nuevas</h4>
                 {renderNewCards}
               </div>
@@ -71,6 +75,8 @@ export const Tasks = () => {
                 <h4>Finalizadas</h4>
                 {renderFinishedCards}
               </div>
+              </>
+              }
             </div>
           )}
         </section>
