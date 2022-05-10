@@ -25,7 +25,8 @@ export const Tasks = () => {
     .then(response => response.json())
     .then(data => {
       setList(data.result)
-      setLoading(false) 
+      setTimeout(() => {setLoading(false) }, 3000)
+      
     })
   },[])
 
@@ -36,19 +37,19 @@ export const Tasks = () => {
   };
 
   const renderAllCards = () => {
-    return list?.map((data) => <Card key={data.id} data={data} />);
+    return list?.map((data) => <Card key={data._id} data={data} />);
   };
 
   const renderNewCards = () => {
-    return list?.filter(data => data.status === "NEW").map((data) => <Card key={data.id} data={data} />);
+    return list?.filter(data => data.status === "NEW").map((data) => <Card key={data._id} data={data} />);
   };
 
   const renderInProgressCards = () => {
-    return list?.filter(data => data.status === "IN PROGRESS").map((data) => <Card key={data.id} data={data} />);
+    return list?.filter(data => data.status === "IN PROGRESS").map((data) => <Card key={data._id} data={data} />);
   };
 
   const renderFinishedCards = () => {
-    return list?.filter(data => data.status === "FINISHED").map((data) => <Card key={data.id} data={data} />);
+    return list?.filter(data => data.status === "FINISHED").map((data) => <Card key={data._id} data={data} />);
   };
 
   return (
@@ -63,12 +64,18 @@ export const Tasks = () => {
           {isPhone ? (
             !list?.length ? (
               <div>No hay tareas creadas</div>
-            ) : (
+            ) : loading ? ( 
+            <>
+              <Skeleton height={90} />
+              <Skeleton height={90} />
+              <Skeleton height={90} />
+            </> ) : (
             <div className="list phone">{renderAllCards()}</div>
             )
           ) : (
             <div className="list_group">
               {!list?.lenght ? <div>No hay tareas creadas</div> : 
+              loading ? ( <Skeleton /> ) : (
               <><div className="list">
                 <h4>Nuevas</h4>
                 {renderNewCards}
@@ -82,6 +89,7 @@ export const Tasks = () => {
                 {renderFinishedCards}
               </div>
               </>
+              )
               }
             </div>
           )}
