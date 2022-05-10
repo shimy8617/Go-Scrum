@@ -6,8 +6,8 @@ export const Card = ({
     <h2>{title}</h2>
     <h6>{createdAt}</h6>
     <h5>{userName}</h5>
-    <button type="button">{status}</button>
-    <button type="button">{importance}</button>
+    <button type="button">{status.toLowerCase()}</button>
+    <button type="button">{importance.toLowerCase()}</button>
     <p>{description}</p>
   </div>
 );
