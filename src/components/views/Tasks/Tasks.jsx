@@ -6,43 +6,41 @@ import {
   FormControl,
   FormControlLabel,
 } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
 import debounce from "lodash.debounce";
-import "react-loading-skeleton/dist/skeleton.css";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import "./Task.styles.css";
+import { getTasks, deleteTask } from "../../../store/actions/tasksActions";
 import { useResize } from "../../../hooks/useResize";
 import { Header } from "../../Header/Header";
 import { TaskForm } from "../../TaskForm/TaskForm";
 import { Card } from "../../Card/Card";
 
-const { REACT_APP_API_ENDPOINT: API_ENDPOINT } = process.env;
-
 export const Tasks = () => {
   const [list, setList] = useState(null);
   const [renderList, setRenderList] = useState(null);
   const [tasksFromWho, setTasksFromWho] = useState("ALL");
-  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const { isPhone } = useResize();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`${API_ENDPOINT}/task${tasksFromWho === "ME" ? "/me" : ""}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setList(data.result);
-        setRenderList(data.result);
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
-      });
+    dispatch(getTasks(tasksFromWho === "ME" ? "/me" : ""));
   }, [tasksFromWho]);
+
+  const { loading, error, tasks } = useSelector((state) => {
+    return state.tasksReducer;
+  });
+
+  console.log({ tasks });
+
+  useEffect(() => {
+    if (tasks?.length) {
+      setList(tasks);
+      setRenderList(tasks);
+    }
+  }, [tasks]);
 
   useEffect(() => {
     if (search)
@@ -50,14 +48,20 @@ export const Tasks = () => {
     else setRenderList(list);
   }, [search]);
 
+  if (error) return <div>Hay un error</div>;
+
   const renderAllCards = () => {
-    return renderList?.map((data) => <Card key={data._id} data={data} />);
+    return renderList?.map((data) => (
+      <Card key={data._id} data={data} deleteCard={handleDelete} />
+    ));
   };
 
   const renderColumnCards = (text) => {
     return renderList
       ?.filter((data) => data.status === text)
-      .map((data) => <Card key={data._id} data={data} />);
+      .map((data) => (
+        <Card key={data._id} data={data} deleteCard={handleDelete} />
+      ));
   };
 
   const handleChangeImportance = (event) => {
@@ -71,6 +75,8 @@ export const Tasks = () => {
   const handleSearch = debounce((event) => {
     setSearch(event?.target?.value);
   }, 1000);
+
+  const handleDelete = (id) => dispatch(dispatch(deleteTask(id)));
 
   return (
     <>
@@ -119,11 +125,7 @@ export const Tasks = () => {
             !renderList?.length ? (
               <div>No hay tareas creadas</div>
             ) : loading ? (
-              <>
-                <Skeleton height={90} />
-                <Skeleton height={90} />
-                <Skeleton height={90} />
-              </>
+              <Skeleton />
             ) : (
               <div className="list phone">{renderAllCards()}</div>
             )
@@ -153,7 +155,6 @@ export const Tasks = () => {
           )}
         </section>
       </main>
-      ;
     </>
   );
 };

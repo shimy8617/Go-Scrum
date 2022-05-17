@@ -1,0 +1,3 @@
+export const TASKS_REQUEST = "TASKS_REQUEST";
+export const TASKS_SUCCESS = "_TASKS_SUCCESS";
+export const TASKS_FAILURE = "_TASKS_FAILURE";

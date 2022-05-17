@@ -122,6 +122,15 @@
     #tasks {
         flex-direction: row;
     }
+
+    #tasks .filters {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    
+    #tasks .filters select {
+        width: 300px;
+    }
     
     #tasks .wrapper_list {
         flex: 1;
