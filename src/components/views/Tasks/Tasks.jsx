@@ -27,7 +27,7 @@ export const Tasks = () => {
 
   useEffect(() => {
     dispatch(getTasks(tasksFromWho === "ME" ? "/me" : ""));
-  }, [tasksFromWho]);
+  }, [tasksFromWho, dispatch]);
 
   const { loading, error, tasks } = useSelector((state) => {
     return state.tasksReducer;
@@ -76,7 +76,7 @@ export const Tasks = () => {
     setSearch(event?.target?.value);
   }, 1000);
 
-  const handleDelete = (id) => dispatch(dispatch(deleteTask(id)));
+  const handleDelete = (id) => dispatch(deleteTask(id));
 
   return (
     <>
@@ -131,7 +131,7 @@ export const Tasks = () => {
             )
           ) : (
             <div className="list_group">
-              {!renderList?.lenght ? (
+              {!renderList?.length ? (
                 <div>No hay tareas creadas</div>
               ) : loading ? (
                 <Skeleton />

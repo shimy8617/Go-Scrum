@@ -29,7 +29,6 @@ export const getTasks = (path) => (dispatch) => {
 };
 
 export const deleteTask = (id) => (dispatch) => {
-  dispatch(tasksRequest());
   fetch(`${API_ENDPOINT}/task${id}`, {
     method: "DELETE",
     headers: {
@@ -38,6 +37,6 @@ export const deleteTask = (id) => (dispatch) => {
     },
   })
     .then((response) => response.json())
-    .then(() => dispatch(getTasks("")))
+    .then((data) => dispatch(getTasks("")))
     .catch((error) => dispatch(tasksFailure(error)));
 };
