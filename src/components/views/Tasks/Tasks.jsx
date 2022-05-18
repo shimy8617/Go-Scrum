@@ -11,7 +11,11 @@ import debounce from "lodash.debounce";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import "./Task.styles.css";
-import { getTasks, deleteTask } from "../../../store/actions/tasksActions";
+import {
+  getTasks,
+  deleteTask,
+  editTaskStatus,
+} from "../../../store/actions/tasksActions";
 import { useResize } from "../../../hooks/useResize";
 import { Header } from "../../Header/Header";
 import { TaskForm } from "../../TaskForm/TaskForm";
@@ -25,15 +29,13 @@ export const Tasks = () => {
   const { isPhone } = useResize();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getTasks(tasksFromWho === "ME" ? "/me" : ""));
-  }, [tasksFromWho, dispatch]);
-
   const { loading, error, tasks } = useSelector((state) => {
     return state.tasksReducer;
   });
 
-  console.log({ tasks });
+  useEffect(() => {
+    dispatch(getTasks(tasksFromWho === "ME" ? "/me" : ""));
+  }, [tasksFromWho, dispatch]);
 
   useEffect(() => {
     if (tasks?.length) {
@@ -52,7 +54,12 @@ export const Tasks = () => {
 
   const renderAllCards = () => {
     return renderList?.map((data) => (
-      <Card key={data._id} data={data} deleteCard={handleDelete} />
+      <Card
+        key={data._id}
+        data={data}
+        deleteCard={handleDelete}
+        editCardStatus={handleEditCardStatus}
+      />
     ));
   };
 
@@ -60,7 +67,12 @@ export const Tasks = () => {
     return renderList
       ?.filter((data) => data.status === text)
       .map((data) => (
-        <Card key={data._id} data={data} deleteCard={handleDelete} />
+        <Card
+          key={data._id}
+          data={data}
+          deleteCard={handleDelete}
+          editCardStatus={handleEditCardStatus}
+        />
       ));
   };
 
@@ -77,6 +89,8 @@ export const Tasks = () => {
   }, 1000);
 
   const handleDelete = (id) => dispatch(deleteTask(id));
+
+  const handleEditCardStatus = (data) => dispatch(editTaskStatus(data));
 
   return (
     <>

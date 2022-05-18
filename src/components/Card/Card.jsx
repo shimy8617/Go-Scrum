@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export const Card = ({
   deleteCard,
+  editCardStatus,
   data: {
     _id,
     title,
@@ -11,6 +12,7 @@ export const Card = ({
     status,
     importance,
   },
+  data,
 }) => {
   const [showMore, setShowMore] = useState(false);
 
@@ -30,7 +32,11 @@ export const Card = ({
       <h2>{title}</h2>
       <h6>{datetime}</h6>
       <h5>{userName}</h5>
-      <button className={status.toLowerCase()} type="button">
+      <button
+        className={status.toLowerCase()}
+        type="button"
+        onClick={() => editCardStatus(data)}
+      >
         {status.toLowerCase()}
       </button>
       <button className={importance.toLowerCase()} type="button">
