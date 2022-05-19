@@ -158,7 +158,7 @@ console.log({data});
           onBlur={handleBlur}
           className={errors.role && touched.role ? "error" : ""}
         >
-          <option value="">Seleccionar una opción</option>
+          <option value="">Seleccionar un rol...</option>
           {data?.role?.map(option => (
           <option value={option} key={option}>
             {option}
