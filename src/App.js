@@ -9,6 +9,7 @@ import "./App.css";
 import { Login } from "./components/views/auth/Login/Login";
 import { Register } from "./components/views/auth/Register/Register";
 import { Tasks } from "./components/views/Tasks/Tasks";
+import { Donate } from "./components/views/Donate/Donate";
 import Registered from "./components/views/Registered/Registered";
 
 const Error404 = lazy(() => import("./components/views/Error404/Error404"));
@@ -46,6 +47,22 @@ export const App = () => {
                 variants={pageTransition}
               >
                 <Tasks />
+              </motion.div>
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/donate"
+          element={
+            <RequireAuth>
+              <motion.div
+                className="page"
+                initial="out"
+                animate="in"
+                exit="out"
+                variants={pageTransition}
+              >
+                <Donate />
               </motion.div>
             </RequireAuth>
           }
