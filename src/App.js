@@ -81,7 +81,7 @@ export const App = () => {
             </motion.div>
           }
         />
-<Route
+        <Route
           path="/registered/:teamID"
           element={
             <motion.div
