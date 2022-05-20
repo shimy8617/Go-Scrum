@@ -18,6 +18,8 @@ export const Header = () => {
   return (
     <header>
       <span>Go Scrum</span>
+      {console.log(process.env)}
+      <span>Estamos en el entorno {process.env.NODE_ENV} corriendo en el puerto {process.env.REACT_APP_PORT}</span>
       <div className="wrapper_right_header">
         <div>
           <button onClick={() => navigate("/donate", {replace:true})}>
