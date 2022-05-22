@@ -10,7 +10,7 @@ import { App } from "./App";
 
 render(
   <React.StrictMode>
-    <BrowserRouter basename="go-scrum">
+    <BrowserRouter basename="Go-Scrum/">
       <Provider store={store}>
         <App />
       </Provider>
